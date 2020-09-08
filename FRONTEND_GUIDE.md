@@ -1,6 +1,6 @@
 ### 前端安装
 
-.npmrc文件复制到前端文件夹的根目录
+.npmrc 文件复制到前端文件夹的根目录
 
 ```shell
 sass_binary_site=https://npm.taobao.org/mirrors/node-sass/
@@ -59,9 +59,9 @@ REST_FRAMEWORK = {
 
 ```
 
-### 配置jwt
+### 配置 jwt
 
-安装simplejwt
+安装 simplejwt
 
 ```
 pip install djangorestframework_simplejwt
@@ -99,9 +99,7 @@ urlpatterns = [
 ]
 ```
 
-### 设置自己的JWT处理函数
-
-
+### 设置自己的 JWT 处理函数
 
 ### 数据库迁移和新用户设置
 
@@ -127,13 +125,13 @@ with Path(CURRENT_DIR, 'templates', 'technical_500.html').open() as fh:
  with Path(CURRENT_DIR, 'templates', 'technical_500.html').open(encoding='utf-8') as fh:
 ```
 
-进行编码设置 ，然后再重新启动runserver，出错信息即可正常显示在页面显示。
+进行编码设置 ，然后再重新启动 runserver，出错信息即可正常显示在页面显示。
 
-### 测试api接口
+### 测试 api 接口
 
-在需要挂代理的机子上，必须在firefox的restclient里测试
+在需要挂代理的机子上，必须在 firefox 的 restclient 里测试
 
-Content-Type必须为application/json
+Content-Type 必须为 application/json
 
 ```
 {
@@ -142,7 +140,7 @@ Content-Type必须为application/json
 }
 ```
 
-### 前端mock和真实数据并行开发
+### 前端 mock 和真实数据并行开发
 
 ```js
 devServer: {
@@ -182,13 +180,13 @@ devServer: {
   }
 ```
 
-需要用mock的api往前移动
+需要用 mock 的 api 往前移动
 
-before改after
+before 改 after
 
-最后后端开发完毕后直接注释或删除proxy和after（before）。
+最后后端开发完毕后直接注释或删除 proxy 和 after（before）。
 
-### 前端request.js中请求的验证头修改
+### 前端 request.js 中请求的验证头修改
 
 ```js
 // request interceptor
@@ -210,13 +208,11 @@ service.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-
 ```
 
-`config.headers["Authorization"]`设为请求头类型加token
+`config.headers["Authorization"]`设为请求头类型加 token
 
-### 前端request.js中相应的错误码修改
-
+### 前端 request.js 中相应的错误码修改
 
 ```js
 service.interceptors.response.use(
@@ -275,6 +271,26 @@ service.interceptors.response.use(
 );
 ```
 
-若相应json中暂时没有错误码则可以先把其中的if条件判断注释掉。注意包括`return Promise.reject(new Error(res.message || "Error"));`也要注释掉。
+若相应 json 中暂时没有错误码则可以先把其中的 if 条件判断注释掉。注意包括`return Promise.reject(new Error(res.message || "Error"));`也要注释掉。
 
-### 
+## 精简初始的前端项目
+
+### 修改 router
+
+进入 router/index.js
+
+清空所有的动态 router, 删除所有 import 的子路由
+
+静态路由中 hidden 为 true 的路由为系统级别路由，保持不动，删除 Document 和 Guide 的路由。
+
+affix 代表此路由是否依附在状态栏上，不需要可以设置为 false。
+
+### 修改 layout
+
+修改 navbar. 分隔线使用 divided 进行设置.
+
+在 layout 的 index.vue 中增加 el-footer 相关信息。
+
+### 替换 favicon
+
+在 public 文件夹下替换 favicon
