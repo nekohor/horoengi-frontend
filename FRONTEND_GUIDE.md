@@ -293,4 +293,4 @@ affix 代表此路由是否依附在状态栏上，不需要可以设置为 fals
 
 ### 替换 favicon
 
-在 public 文件夹下替换 favicon
+在 public 文件夹下替换 favicon.ico
