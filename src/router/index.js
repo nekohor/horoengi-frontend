@@ -93,7 +93,7 @@ export const constantRoutes = [
     children: [
       {
         path: "tempo-data-exporter",
-        component: () => import("@/views/documentation/index"),
+        component: () => import("@/views/app/product-efficiency/tempo-data-exporter/index"),
         name: "TempoDataExporter",
         meta: { title: "轧制节奏实绩查询", icon: "chart", affix: false }
       },

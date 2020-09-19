@@ -294,3 +294,38 @@ affix 代表此路由是否依附在状态栏上，不需要可以设置为 fals
 ### 替换 favicon
 
 在 public 文件夹下替换 favicon.ico
+
+
+## 路由替换注意事项
+
+注意路由替换，需保证面包屑的问题。
+
+```javascript
+  {
+    path: "/product-efficiency",
+    component: Layout,
+    meta: {
+      title: "生产效率",
+      icon: "people"
+    },
+    children: [
+      {
+        path: "tempo-data-exporter",
+        component: () => import("@/views/app/product-efficiency/tempo-data-exporter/index"),
+        name: "TempoDataExporter",
+        meta: { title: "轧制节奏实绩查询", icon: "chart", affix: false }
+      },
+      {
+        path: "rhythm-simulator",
+        component: () => import("@/views/documentation/index"),
+        name: "RhythmSimulator",
+        meta: {
+          title: "加热炉装出钢模型",
+          icon: "tree",
+          affix: false
+        }
+      }
+    ]
+  },
+
+```
