@@ -45,7 +45,7 @@
           </div>
           <el-form ref="taskIdForm" :rules="rules" :model="taskIdForm" label-width="80px">
             <el-form-item label="任务ID" prop="taskId">
-              <el-input v-model="taskIdForm.taskId" class="query-button" placeholder="任务ID" />
+              <el-input v-model="taskIdForm.taskId" placeholder="任务ID" />
             </el-form-item>
             <el-form-item id="query-button-group">
               <el-button type="primary" @click="queryTask">根据ID查询进度</el-button>
@@ -111,6 +111,7 @@ export default {
           return false;
         }
         // const asyncTaskFormData = this.getAsyncTaskFormData();
+
         // const { taskId } = this.$store.dispatch(
         //   "tempo/asyncExportTask",
         //   asyncTaskFormData
@@ -118,10 +119,6 @@ export default {
 
         this.taskIdForm.taskId = "dwdwdwdwdw";
         // this.taskIdForm.taskId = taskId;
-
-        // this.excelFileUrl = "";
-
-        this.isNotAbleToDownload = false;
       });
     },
 
@@ -139,6 +136,37 @@ export default {
       const strDate = date.getDate().toString().padStart(2, "0");
       const formattedDate = `${date.getFullYear()}${month}${strDate}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
       return formattedDate;
+    },
+
+    queryTask() {
+      this.$refs["taskIdForm"].validate((valid) => {
+        if (valid) {
+          this.$message("在后台查询任务ID");
+        } else {
+          this.$message.error("查询必须有任务ID！");
+          return false;
+        }
+        // const { state, info, fileUrlWithHost } = this.$store.dispatch(
+        //   "tempo/awaitExportTask",
+        //   this.taskIdForm
+        // );
+
+        // if (state === "SUCCESS") {
+        //   // this.excelFileUrl = "";
+        //   this.isNotAbleToDownload = false;
+        //   this.$message({
+        //     message: "恭喜你，这是一条成功消息",
+        //     type: "success",
+        //   });
+        //   this.$message("在后台查询任务ID");
+        // } else if (state == "FAILURE") {
+        //   this.$message("任务失败");
+        //   this.$message({
+        //     message: "恭喜你，这是一条成功消息",
+        //     type: "warning",
+        //   });
+        // }
+      });
     },
 
     downloadExcelFile() {
