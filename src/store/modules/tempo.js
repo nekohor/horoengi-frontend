@@ -1,24 +1,26 @@
 import { asyncTempoExportTask, awaitTempoExportTask } from "@/api/tempo";
 
 const state = {
-  taskId: "",
+  taskId: ""
 };
 
 const mutations = {
   SET_TASK_ID: (state, taskId) => {
     state.taskId = taskId;
-  },
+  }
 };
 
 const actions = {
   asyncExportTask({ commit }, formData) {
-    console.log(formData)
     const { millLineTag, startTime, endTime } = formData;
+    console.log(millLineTag);
+    console.log(startTime);
+    console.log(endTime);
     return new Promise((resolve, reject) => {
       asyncTempoExportTask({
         millLineTag: millLineTag,
         startTime: startTime,
-        endTime: endTime,
+        endTime: endTime
       })
         .then(response => {
           const { data } = response;
@@ -41,7 +43,6 @@ const actions = {
           // const { data } = response;
           const data = response.data;
           console.log(data);
-          commit("SET_TASK_ID", data.taskId);
           resolve(data);
         })
         .catch(error => {
@@ -49,8 +50,7 @@ const actions = {
         });
     });
   }
-
-}
+};
 
 export default {
   namespaced: true,

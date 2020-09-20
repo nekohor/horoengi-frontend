@@ -60,8 +60,8 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span>Username : admin</span>
-          <span>Password : any</span>
+          <!-- <span>Username : admin</span>
+          <span>Password : any</span>-->
         </div>
         <!-- <div class="tips">
           <span style="margin-right:18px;">Username : editor</span>
@@ -84,11 +84,11 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-import SocialSign from "./components/SocialSignin";
+// import SocialSign from "./components/SocialSignin";
 
 export default {
   name: "Login",
-  components: { SocialSign },
+  // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -106,8 +106,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "nekohor",
-        password: "11235813",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [

@@ -51,10 +51,10 @@ module.exports = [
 
   // get user info
   {
-    url: "/vue-element-admin/user/info.*",
+    url: "/user/info.*",
     type: "get",
     response: config => {
-      const { token } = config.query;
+      // const { token } = config.query;
       const info = users["admin-token"];
 
       // mock error
@@ -74,7 +74,7 @@ module.exports = [
 
   // user logout
   {
-    url: "/vue-element-admin/user/logout",
+    url: "/user/logout",
     type: "post",
     response: _ => {
       return {

@@ -1,16 +1,17 @@
 import request from "@/utils/request";
 
 export function asyncTempoExportTask(data) {
+  console.log(data);
   return request({
-    url: "/tempo/export/task",
-    method: "get",
+    url: "/tempo/export/task/async",
+    method: "post",
     data
   });
 }
 
 export function awaitTempoExportTask(data) {
   return request({
-    url: "/tempo/export/task",
+    url: "/tempo/export/task/await",
     method: "post",
     data
   });

@@ -18,7 +18,6 @@
               <el-date-picker
                 v-model="taskForm.timeRange"
                 type="datetimerange"
-                :picker-options="pickerOptions"
                 range-separator="至"
                 start-placeholder="开始日期与时间"
                 end-placeholder="结束日期与时间"
@@ -64,6 +63,7 @@
 </template>
 
 <script>
+import { asyncTempoExportTask, awaitTempoExportTask } from "@/api/tempo";
 export default {
   data() {
     return {
@@ -93,32 +93,36 @@ export default {
           {
             required: true,
             message: "需要一个任务ID",
-            trigger: "blur",
+            trigger: "change",
           },
         ],
       },
       isNotAbleToDownload: true,
-      excelFileUrl: "https://www.djangoproject.com/download/2.1.15/tarball/",
+      excelFileUrl: "",
     };
   },
   methods: {
     releaseTask() {
       this.$refs["taskForm"].validate((valid) => {
         if (valid) {
-          this.$message("已经提交任务请求");
+          // this.$message("已经提交任务请求");
         } else {
           this.$message.error("请选择相关选项！");
           return false;
         }
-        // const asyncTaskFormData = this.getAsyncTaskFormData();
-
-        // const { taskId } = this.$store.dispatch(
-        //   "tempo/asyncExportTask",
-        //   asyncTaskFormData
-        // );
-
-        this.taskIdForm.taskId = "dwdwdwdwdw";
-        // this.taskIdForm.taskId = taskId;
+        const asyncTaskFormData = this.getAsyncTaskFormData();
+        asyncTempoExportTask(asyncTaskFormData)
+          .then((response) => {
+            const { data } = response;
+            this.$message({
+              message: `成功获得任务ID：${data.taskId}`,
+              type: "success",
+            });
+            this.taskIdForm.taskId = data.taskId;
+          })
+          .catch((error) => {
+            this.$message.error(error);
+          });
       });
     },
 
@@ -131,41 +135,50 @@ export default {
       return formData;
     },
 
-    formatDateTime(date) {
-      const month = (date.getMonth() + 1).toString().padStart(2, "0");
-      const strDate = date.getDate().toString().padStart(2, "0");
-      const formattedDate = `${date.getFullYear()}${month}${strDate}${date.getHours()}${date.getMinutes()}${date.getSeconds()}`;
-      return formattedDate;
+    formatDateTime(dateTime) {
+      const year = dateTime.getFullYear().toString();
+      const month = (dateTime.getMonth() + 1).toString().padStart(2, "0");
+      const date = dateTime.getDate().toString().padStart(2, "0");
+      const hour = dateTime.getHours().toString().padStart(2, "0");
+      const miniute = dateTime.getMinutes().toString().padStart(2, "0");
+      const second = dateTime.getSeconds().toString().padStart(2, "0");
+      const formattedDateTime = `${year}${month}${date}${hour}${miniute}${second}`;
+      return formattedDateTime;
     },
 
     queryTask() {
       this.$refs["taskIdForm"].validate((valid) => {
         if (valid) {
-          this.$message("在后台查询任务ID");
+          // this.$message("在后台查询任务ID");
         } else {
-          this.$message.error("查询必须有任务ID！");
+          this.$message.error("查询参数必须有任务ID！");
           return false;
         }
-        // const { state, info, fileUrlWithHost } = this.$store.dispatch(
-        //   "tempo/awaitExportTask",
-        //   this.taskIdForm
-        // );
-
-        // if (state === "SUCCESS") {
-        //   // this.excelFileUrl = "";
-        //   this.isNotAbleToDownload = false;
-        //   this.$message({
-        //     message: "恭喜你，这是一条成功消息",
-        //     type: "success",
-        //   });
-        //   this.$message("在后台查询任务ID");
-        // } else if (state == "FAILURE") {
-        //   this.$message("任务失败");
-        //   this.$message({
-        //     message: "恭喜你，这是一条成功消息",
-        //     type: "warning",
-        //   });
-        // }
+        awaitTempoExportTask({ taskId: this.taskIdForm.taskId })
+          .then((response) => {
+            const { data } = response;
+            const state = data.state;
+            const info = data.info;
+            if (state === "SUCCESS") {
+              this.$message({
+                message: `恭喜你，${info}`,
+                type: "success",
+              });
+              console.log(data.fileUrlWithHost);
+              this.excelFileUrl = data.fileUrlWithHost;
+              this.isNotAbleToDownload = false;
+            } else if (state == "FAILURE") {
+              this.$message({
+                message: `很抱歉，${info}`,
+                type: "error",
+              });
+            } else {
+              this.$message(info);
+            }
+          })
+          .catch((error) => {
+            this.$message.error(error);
+          });
       });
     },
 

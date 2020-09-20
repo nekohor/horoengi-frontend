@@ -77,7 +77,7 @@ export const constantRoutes = [
     children: [
       {
         path: "dashboard",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/app/dashboard/index"),
         name: "Dashboard",
         meta: { title: "仪表盘", icon: "dashboard", affix: true }
       }
@@ -93,20 +93,21 @@ export const constantRoutes = [
     children: [
       {
         path: "tempo-data-exporter",
-        component: () => import("@/views/app/product-efficiency/tempo-data-exporter/index"),
+        component: () =>
+          import("@/views/app/product-efficiency/tempo-data-exporter/index"),
         name: "TempoDataExporter",
         meta: { title: "轧制节奏实绩查询", icon: "chart", affix: false }
-      },
-      {
-        path: "rhythm-simulator",
-        component: () => import("@/views/documentation/index"),
-        name: "RhythmSimulator",
-        meta: {
-          title: "加热炉装出钢模型",
-          icon: "tree",
-          affix: false
-        }
       }
+      // {
+      //   path: "rhythm-simulator",
+      //   component: () => import("@/views/documentation/index"),
+      //   name: "RhythmSimulator",
+      //   meta: {
+      //     title: "加热炉装出钢模型",
+      //     icon: "tree",
+      //     affix: false
+      //   }
+      // }
     ]
   },
   {
